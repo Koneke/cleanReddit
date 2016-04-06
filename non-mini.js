@@ -1,3 +1,36 @@
+var a = document.getElementsByClassName("tagline");
+// the first one is your own in the sidebar for flair
+// second is post submitter
+for (var i = 2; i < a.length; i++) {
+	var die = false;
+	var c = a[i];
+	do {
+		if (c) c = c.nextElementSibling;
+		else { die = true; break; }
+	}
+	while (!die && c.className !== "flat-list buttons");
+
+	if (die) continue;
+
+	var n = a[i].childNodes[0];
+	while (true) {
+		if (n && n.nextElementSibling) { n = n.nextElementSibling; }
+		else { die = true; break; }
+
+		if (die || n.className == "RESUserTag") {
+			break;
+		}
+	}
+
+	if (!die) {
+		// make sure we've not already done shit here
+		if (!c.innerHTML.startsWith("<b><a href=")) {
+			n = n.firstChild.getAttribute("username");
+			c.innerHTML = "<b><a href='http://www.reddit.com/u/" + n + "'>" + n + "</a></b> | " + c.innerHTML;
+		}
+	}
+}
+
 function doon(x,f) {
     var b = document.getElementsByClassName(x);
     for (var i = 0; i < b.length; i++) {
