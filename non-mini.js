@@ -22,11 +22,27 @@ for (var i = 2; i < a.length; i++) {
 		}
 	}
 
+	if (die) continue;
+
+	var x = a[i].childNodes[0];
+	var f = undefined;
+	while (true) {
+		if (x && x.nextElementSibling) { x = x.nextElementSibling; }
+		else { break; }
+
+		if (x.className == "flair flair-mozilla") {
+			f = x.getAttribute("title");
+			break;
+		}
+	}
+
 	if (!die) {
 		// make sure we've not already done shit here
 		if (!c.innerHTML.startsWith("<b><a href=")) {
 			n = n.firstChild.getAttribute("username");
-			c.innerHTML = "<b><a href='http://www.reddit.com/u/" + n + "'>" + n + "</a></b> | " + c.innerHTML;
+			var full = n;
+			if (f != undefined) { full = full + "[" + f + "]"; }
+			c.innerHTML = "<b><a href='http://www.reddit.com/u/" + n + "'>" + full + "</a></b> | " + c.innerHTML;
 		}
 	}
 }
